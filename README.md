@@ -126,6 +126,16 @@ jupyter notebook
 - `MIN_REVIEW_WORDS = 20`
 - `MIN_REVIEW_CHARS = 100`
 
+## Разведочный анализ (EDA)
+
+Распределение классов показывает, что целевая переменная несбалансирована: часть классов встречается заметно чаще других, поэтому основной метрикой выбран `macro F1`.
+
+![Распределение классов опыта по группам игр](docs/figures/class_distribution.png)
+
+Распределение игрового времени отличается между `offline` и `competitive`: в соревновательных играх типичное число часов выше, поэтому для двух групп используются разные границы классов.
+
+![Распределение игрового времени по группам игр](docs/figures/playtime_distribution.png)
+
 ## Признаки
 
 Текстовые признаки:
@@ -226,6 +236,16 @@ TfidfVectorizer(
 - Word2Vec уступает TF-IDF и Qwen на общем срезе, но немного обгоняет TF-IDF на `competitive`;
 - метаданные дают сильный вклад во всех подходах.
 
+![Лучший macro F1 по методу и срезу данных](docs/figures/model_results.png)
+
+Сравнение внутри каждого подхода показывает вклад текстового представления и метаданных относительно простого baseline.
+
+![TF-IDF: baseline, text-only и модель с метаданными](docs/figures/tfidf_model_comparison.png)
+
+![Word2Vec: baseline, text-only и модель с метаданными](docs/figures/word2vec_model_comparison.png)
+
+![Qwen: baseline, text-only и модель с метаданными](docs/figures/qwen_model_comparison.png)
+
 ## Анализ ошибок
 
 В ноутбуках с моделями сохраняются:
@@ -252,6 +272,9 @@ ml-steam-reviews/
 ├── data/
 │   ├── raw/                         # сырые данные, не коммитятся
 │   └── processed/                   # подготовленный датасет и кэш эмбеддингов, не коммитятся
+├── docs/
+│   ├── figures/                     # графики
+│   └── presentation.pdf             # презентация
 ├── notebooks/
 │   ├── 01_eda.ipynb                 # разведочный анализ данных и визуализации
 │   ├── 02_tfidf_modeling.ipynb      # модель на основе TF-IDF
